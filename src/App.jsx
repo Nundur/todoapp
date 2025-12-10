@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+
+const STORAGE_KEY = 'todos-app'
+
 
 function App() {
   // szűrő belső állapota
@@ -7,40 +10,33 @@ function App() {
   // todo-k listájának állapota
   //const [todos, setTodos] = useState([])
 
-
-
-
-
-  //----------------------------------------------------------------------------------
-  //szia jövőnandi
-  //innentől full bugos a programod mert kurvara nem figyeltel oran
-
-  //majd tord fel davidot es lopd el a projekttjet, azzal talan mukodni fog
-  //addig is feltoltom githubra, majd latni fogod mer szerintem onnan toltotted le:D
-  //szarlehet de hat ez van
-
-  //buzivagy
-//----------------------------------------------------------------------------------
-
-
-
-
-
   // az input mező belső állapota (amibe írjuk a szöveget)
+  // todo-k listájának állapota
+  // const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY)
+      return stored ? JSON.parse(stored) : []
+      //localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+    } catch (error) {
+
+      console.log(`Hiba a localstorage  urasakor ${error}`)
+      return []
+    }
+
+  })
   const [text, setText] = useState('')
-  const [todos, setTodos] = useEffect(() =>{
 
-try {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  return stored ? JSON.parse(stored) : []
-  //localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-} catch (error) {
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+    } catch (e) {
+      console.log(e);
+    }
+  })
 
-  console.log(`Hiba a localstorage  urasakor ${error}`)
-  return []
-}
 
-})
+
   // spread operatorral
   const toggleTodo = (id) => {
     setTodos((prev) =>
