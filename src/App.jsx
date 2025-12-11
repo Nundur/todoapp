@@ -13,7 +13,7 @@ function App() {
   // az input mező belső állapota (amibe írjuk a szöveget)
   // todo-k listájának állapota
   // const [todos, setTodos] = useState([])
-  const [todos, setTodos] = useEffect(() => {
+  const [todos, setTodos] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
       return stored ? JSON.parse(stored) : []
